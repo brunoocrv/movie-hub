@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import { beforeAll, describe, expect, it } from 'vitest'
 
 import Home from '@/app/home/page'
 
@@ -9,7 +9,6 @@ describe('Home screen', () => {
 
     render(home)
   })
-  const onClick = vi.fn()
 
   it('Should render home page', () => {
     expect(screen.getByText(/movie hub/i)).toBeDefined()
