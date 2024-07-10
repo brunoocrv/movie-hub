@@ -1,23 +1,20 @@
 import Image from 'next/image'
 
-import type { Cast, MovieDetail } from '@/__types__/movies'
 import { fetchMovieDetailService } from '@/http/services/movies/fetch-movie-detail.service'
 
 import { LabelInfo } from '../label-info'
 import { Badge } from '../ui/badge'
 
-export async function MovieDetail({ movieId }: { movieId: number }) {
-  const { movie, cast }: { movie: MovieDetail; cast: Cast[] } =
-    await fetchMovieDetailService(movieId)
-
+export default async function MovieDetail({ movieId }: { movieId: number }) {
+  const { movie, cast } = await fetchMovieDetailService(movieId)
   return (
     <div className="flex flex-col w-full space-y-4">
-      {!movie.id && (
+      {!movie && (
         <span className="place-self-center text-gray-500">
           Não foi possível carregar as informações, tente novamente mais tarde
         </span>
       )}
-      {movie.id && (
+      {!!movie && movie.id && (
         <div className="flex flex-col lg:flex-row w-full items-start justify-start gap-4">
           <Image
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

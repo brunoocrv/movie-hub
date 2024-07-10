@@ -1,21 +1,22 @@
 import Image from 'next/image'
-import { Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 
 import { Movie } from '@/__types__/movies'
 import { votesResolver } from '@/utils/votesResolver'
 
 import { HookedDialog } from '../hooked-dialog'
 import { LabelInfo } from '../label-info'
-import { MovieDetail } from './movie-detail'
 import { MovieDetailSkeleton } from './skeletons/movie-detail-skeleton'
 
 export function MovieCard(movie: Movie) {
+  const MovieDetail = lazy(() => import('@/components/movies/movie-detail'))
   return (
     <HookedDialog
       title={movie.title}
       trigger={
         <div
           key={movie.id}
+          data-testid="movie-card"
           className="w-full h-full flex items-start justify-start rounded-lg bg-slate-100 cursor-pointer hover:opacity-50 transition ease-in-out"
         >
           <Image

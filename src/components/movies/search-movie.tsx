@@ -20,6 +20,8 @@ export function SearchMovie() {
     startTransition(async () => {
       const { results } = await searchMovieService(valueToSearch)
 
+      console.log(results)
+
       setValueToSearch('')
       setFindedMovies(results)
     })
@@ -31,6 +33,7 @@ export function SearchMovie() {
         <Input
           placeholder="Search for movies"
           value={valueToSearch}
+          data-testid="search-input"
           onChange={(event) => setValueToSearch(event.target.value)}
         />
         <Button data-testid="search-button" onClick={() => handleSearch()}>
@@ -49,6 +52,7 @@ export function SearchMovie() {
               variant="ghost"
               size="sm"
               className="gap-2"
+              data-testid="clear-results-button"
               onClick={() => {
                 setFindedMovies([])
               }}
