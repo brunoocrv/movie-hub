@@ -7,6 +7,7 @@ export async function fetchMovieDetailService(movieId: number): Promise<{
   cast?: Cast[]
 }> {
   const movie = await fetch(`https://api.themoviedb.org/3/movie/${movieId}`, {
+    method: 'GET',
     headers: {
       Authorization: `Bearer ${process.env.API_TOKEN}`,
     },
@@ -15,6 +16,7 @@ export async function fetchMovieDetailService(movieId: number): Promise<{
   const { cast } = await fetch(
     `https://api.themoviedb.org/3/movie/${movieId}/credits`,
     {
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${process.env.API_TOKEN}`,
       },

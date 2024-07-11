@@ -2,22 +2,37 @@ import Image from 'next/image'
 
 import { fetchMovieDetailService } from '@/http/services/movies/fetch-movie-detail.service'
 
+import { Cast, MovieDetail } from '@/__types__/movies'
 import { LabelInfo } from '../label-info'
 import { Badge } from '../ui/badge'
+import { toast } from '../ui/use-toast'
 
-export default async function MovieDetail({ movieId }: { movieId: number }) {
-  const { movie, cast } = await fetchMovieDetailService(movieId)
+export default async function MovieDetailContent({
+  movieId,
+}: {
+  movieId: number
+}) {
+  const result: { movie?: MovieDetail; cast?: Cast[] } | void =
+    await fetchMovieDetailService(movieId)
+      .then((res) => res)
+      .catch((error) => {
+        toast({
+          title: 'Failed to fetch popular movies',
+          description: error.message,
+        })
+      })
+
   return (
     <div className="flex flex-col w-full space-y-4">
-      {!movie && (
+      {!!result && !result.movie && (
         <span className="place-self-center text-gray-500">
           Não foi possível carregar as informações, tente novamente mais tarde
         </span>
       )}
-      {!!movie && movie.id && (
+      {!!result && result.movie && (
         <div className="flex flex-col lg:flex-row w-full items-start justify-start gap-4">
           <Image
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w500${result.movie.poster_path}`}
             alt=""
             width={1000}
             height={1000}
@@ -27,7 +42,7 @@ export default async function MovieDetail({ movieId }: { movieId: number }) {
           <div className="space-y-4">
             <LabelInfo
               label="Overview:"
-              content={<span className="text-sm">{movie.overview}</span>}
+              content={<span className="text-sm">{result.movie.overview}</span>}
             />
             <LabelInfo
               label="Release date:"
@@ -35,7 +50,7 @@ export default async function MovieDetail({ movieId }: { movieId: number }) {
                 <span className="text-sm">
                   {new Intl.DateTimeFormat('en', {
                     dateStyle: 'medium',
-                  }).format(new Date(movie.release_date)) ?? '-'}
+                  }).format(new Date(result.movie.release_date)) ?? '-'}
                 </span>
               }
             />
@@ -43,7 +58,7 @@ export default async function MovieDetail({ movieId }: { movieId: number }) {
               label="Genres:"
               content={
                 <div className="flex gap-2 w-full flex-wrap">
-                  {movie.genres.map((genre) => (
+                  {result.movie.genres.map((genre) => (
                     <Badge key={genre.id}>{genre.name}</Badge>
                   ))}
                 </div>
@@ -53,7 +68,7 @@ export default async function MovieDetail({ movieId }: { movieId: number }) {
               label="Production companies:"
               content={
                 <div className="flex gap-2 flex-wrap w-full">
-                  {movie.production_companies.map((company) => (
+                  {result.movie.production_companies.map((company) => (
                     <Badge key={company.id} variant="secondary">
                       {company.name}
                     </Badge>
@@ -65,8 +80,8 @@ export default async function MovieDetail({ movieId }: { movieId: number }) {
               label="Cast:"
               content={
                 <div className="grid grid-cols-2 gap-2">
-                  {cast !== undefined
-                    ? cast.map((actor) => (
+                  {result.cast !== undefined
+                    ? result.cast.map((actor) => (
                         <div
                           key={actor.id}
                           className="text-xs flex items-end justify-start gap-2"
