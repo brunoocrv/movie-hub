@@ -1,7 +1,9 @@
-import { Movie } from '@/__types__/movies'
-import { MovieCard } from '@/components/movies/movie-card'
+import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it } from 'vitest'
+
+import { Movie } from '@/__types__/movies'
+import { MovieCard } from '@/components/movies/movie-card'
 
 const movie: Movie = {
   id: 1,
@@ -23,6 +25,6 @@ describe('movie card component', () => {
   it('should to open dialog to show details', () => {
     fireEvent.click(screen.getByTestId('movie-card'))
 
-    expect(screen.getByRole('dialog')).toBeDefined()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 })

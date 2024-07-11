@@ -1,26 +1,29 @@
 // @vitest-environment node
+import { describe, expect, it, vi } from 'vitest'
 
-import { GET } from '@/app/api/movies/search-movie/route'
-import { describe, expect, it } from 'vitest'
+import { mockedMovies } from '@/__tests__/utils/movie-mocks'
+import { searchMovieService } from '@/http/services/movies/search-movie.service'
 
-describe('search movie request', async () => {
+global.fetch = vi.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(mockedMovies),
+    ok: true,
+    status: 200,
+  } as Response),
+)
+
+describe('search movie request', () => {
   it('should search movie request', async () => {
-    const request = new Request(
-      'https://api.themoviedb.org/3/search/movie?query=fast',
+    const query = 'batman'
+
+    const result = await searchMovieService(query)
+
+    expect(result).toEqual(mockedMovies)
+    expect(global.fetch).toHaveBeenCalledWith(
+      `${process.env.HOST}/api/movies/search-movie?query=${query}`,
       {
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${process.env.API_TOKEN}`,
-        },
+        method: 'GET',
       },
     )
-    const res = await GET(request).then((res) => ({
-      status: res.status,
-      body: res.json().then((body) => body.results.slice(0, 1)),
-    }))
-
-    expect(res.status).toBe(200)
-    expect(await res.body).toBeDefined()
-    expect(await res.body).toHaveLength(1)
   })
 })

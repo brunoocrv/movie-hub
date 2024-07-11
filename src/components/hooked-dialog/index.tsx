@@ -1,5 +1,4 @@
-import { ReactElement } from 'react'
-
+import { DialogHookedProps } from '@/__types__/components/dialog'
 import {
   Dialog,
   DialogContent,
@@ -8,13 +7,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-
-interface DialogHookedProps {
-  trigger: ReactElement
-  title: string
-  content: ReactElement
-  actions?: ReactElement
-}
 
 export function HookedDialog({
   trigger,

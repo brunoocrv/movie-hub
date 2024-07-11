@@ -1,13 +1,28 @@
 // @vitest-environment node
 
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
-import { GET } from '@/app/api/movies/upcoming-movies/route'
+import { mockedMovies } from '@/__tests__/utils/movie-mocks'
+import { fetchUpcomingMoviesService } from '@/http/services/movies/fetch-upcoming-movies.service'
 
-describe('fetch upcoming movies', async () => {
-  it('should fetch upcoming movies', async () => {})
-  const res = await GET()
+global.fetch = vi.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(mockedMovies),
+    ok: true,
+    status: 200,
+  } as Response),
+)
 
-  expect(res.status).toBe(200)
-  expect(res.body).toBeDefined()
+describe('fetch upcoming movies', () => {
+  it('should fetch upcoming movies', async () => {
+    const result = await fetchUpcomingMoviesService()
+    expect(result).toEqual(mockedMovies)
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      `${process.env.HOST}/api/movies/upcoming-movies`,
+      {
+        method: 'GET',
+      },
+    )
+  })
 })
