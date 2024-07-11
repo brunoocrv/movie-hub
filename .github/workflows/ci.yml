@@ -27,6 +27,3 @@ jobs:
         env:
           HOST: http://localhost:3000
           API_TOKEN: ${{ secrets.API_TOKEN }}
-        with:
-          build: npm run build
-          start: npm start
