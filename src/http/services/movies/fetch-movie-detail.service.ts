@@ -1,3 +1,5 @@
+'use server'
+
 import type { Cast, MovieDetail } from '@/__types__/movies'
 
 export async function fetchMovieDetailService(movieId: number): Promise<{
