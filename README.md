@@ -1,8 +1,8 @@
 ## movie hub
 
-With this project, you can see popular and upcoming movies, and search a specific movie.
+- With this project, you can see popular and upcoming movies, and search a specific movie.
 
-This project was builted with NextJS, Typescript, TailwindCSS, Vitest, React testing library and Cypress.
+- This project was builted with NextJS, Typescript, TailwindCSS, Vitest, React testing library and Cypress.
 
 Install dependencies
 ```
