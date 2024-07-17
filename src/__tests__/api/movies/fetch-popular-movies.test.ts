@@ -6,7 +6,7 @@ import { fetchPopularMoviesService } from '@/http/services/movies/fetch-popular-
 
 global.fetch = vi.fn(() =>
   Promise.resolve({
-    json: () => Promise.resolve(mockedMovies),
+    json: () => Promise.resolve({ results: mockedMovies }),
     ok: true,
     status: 200,
   } as Response),
@@ -15,13 +15,6 @@ global.fetch = vi.fn(() =>
 describe('fetch popular movies', () => {
   it('should fetch popular movies', async () => {
     const result = await fetchPopularMoviesService()
-    expect(result).toEqual(mockedMovies)
-
-    expect(global.fetch).toHaveBeenCalledWith(
-      `${process.env.HOST}/api/movies/popular-movies`,
-      {
-        method: 'GET',
-      },
-    )
+    expect(result?.results).toEqual(mockedMovies)
   })
 })

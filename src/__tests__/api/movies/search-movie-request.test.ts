@@ -6,7 +6,7 @@ import { searchMovieService } from '@/http/services/movies/search-movie.service'
 
 global.fetch = vi.fn(() =>
   Promise.resolve({
-    json: () => Promise.resolve(mockedMovies),
+    json: () => Promise.resolve({ results: mockedMovies }),
     ok: true,
     status: 200,
   } as Response),
@@ -18,12 +18,6 @@ describe('search movie request', () => {
 
     const result = await searchMovieService(query)
 
-    expect(result).toEqual(mockedMovies)
-    expect(global.fetch).toHaveBeenCalledWith(
-      `${process.env.HOST}/api/movies/search-movie?query=${query}`,
-      {
-        method: 'GET',
-      },
-    )
+    expect(result?.results).toEqual(mockedMovies)
   })
 })

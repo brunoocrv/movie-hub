@@ -2,7 +2,6 @@ import Image from 'next/image'
 
 import { fetchMovieDetailService } from '@/http/services/movies/fetch-movie-detail.service'
 
-import { Cast, MovieDetail } from '@/__types__/movies'
 import { LabelInfo } from '../label-info'
 import { Badge } from '../ui/badge'
 import { toast } from '../ui/use-toast'
@@ -12,15 +11,12 @@ export default async function MovieDetailContent({
 }: {
   movieId: number
 }) {
-  const result: { movie?: MovieDetail; cast?: Cast[] } | void =
-    await fetchMovieDetailService(movieId)
-      .then((res) => res)
-      .catch((error) => {
-        toast({
-          title: 'Failed to fetch popular movies',
-          description: error.message,
-        })
-      })
+  const result = await fetchMovieDetailService(movieId).catch((error) => {
+    toast({
+      title: 'Failed to fetch popular movies',
+      description: error.message,
+    })
+  })
 
   return (
     <div className="flex flex-col w-full space-y-4">

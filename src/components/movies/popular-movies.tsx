@@ -6,7 +6,7 @@ import { MovieCard } from './movie-card'
 
 export async function PopularMovies() {
   const popularMovies: Movie[] | void = await fetchPopularMoviesService()
-    .then((res) => res.results)
+    .then((res) => res && res.results)
     .catch((error) => {
       toast({
         title: 'Failed to fetch popular movies',
