@@ -2,6 +2,7 @@ import { DialogHookedProps } from '@/__types__/components/dialog'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -17,9 +18,10 @@ export function HookedDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent aria-describedby={undefined}>
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{''}</DialogDescription>
         </DialogHeader>
         {content}
         {actions && <DialogFooter>{actions}</DialogFooter>}
