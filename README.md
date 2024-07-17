@@ -4,6 +4,8 @@
 
 - This project was builted with NextJS, Typescript, TailwindCSS, Vitest, React testing library and Cypress.
 
+[deployed at vercel](https://movie-hub-virid.vercel.app/)
+
 Install dependencies
 ```
 npm install
@@ -23,7 +25,7 @@ Run unitary tests
 npm run test --all
 ```
 
-Run E2E tests
+Run E2E tests (the application must to be running)
 ```
 npx cypress open
 ```
