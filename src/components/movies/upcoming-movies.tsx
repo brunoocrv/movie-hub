@@ -4,7 +4,7 @@ import { MovieCard } from './movie-card'
 
 export async function UpcomingMovies() {
   const upcomingMovies = await fetchUpcomingMoviesService()
-    .then((res) => res.results)
+    .then((res) => res?.results)
     .catch((error) => {
       toast({
         title: 'Failed to fetch upcoming movies',
