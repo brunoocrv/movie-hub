@@ -8,6 +8,7 @@ import { searchMovieService } from '@/http/services/movies/search-movie.service'
 
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
+import { toast } from '../ui/use-toast'
 import { MovieCard } from './movie-card'
 
 export function SearchMovie() {
@@ -18,12 +19,20 @@ export function SearchMovie() {
 
   async function handleSearch() {
     startTransition(async () => {
-      const { results } = await searchMovieService(valueToSearch)
-
-      console.log(results)
+      const response = await searchMovieService(valueToSearch).catch(() => {
+        toast({
+          title: 'Failed to search for movies',
+          description: 'Try again later',
+        })
+      })
 
       setValueToSearch('')
-      setFindedMovies(results)
+
+      if (!response?.results) {
+        return
+      }
+
+      setFindedMovies(response.results)
     })
   }
 
